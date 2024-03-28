@@ -22,7 +22,7 @@
           <el-form-item>
             <el-row type="flex" justify="center">
               <el-col :span="4">
-                <el-button type="primary" style="width: 100px">登录</el-button>
+                <el-button type="primary" @click="login(loginUser)" style="width: 100px">登录</el-button>
               </el-col>
             </el-row>
 
@@ -50,6 +50,23 @@ export default {
         qrCde: ''
       }
     }
+  },
+  methods: {
+    login(user) {
+      console.log(user)
+      this.$axios.post('/doc/login?username=' + user.username + '&password=' + user.password, {
+        params: user
+      })
+        .then(res => {
+          // 登录成功 跳转首页
+          this.$router.push({
+            path:'/homePage'
+          })
+        })
+        .catch(err => {
+          this.$message.error('登录失败')
+        })
+    }
   }
 }
 </script>
@@ -59,6 +76,7 @@ export default {
   background-image: url("../../../static/image/bb9677aa0d90a0fc621d097529f8daf8.jpg");
   width: 100%;
 }
+
 #login_form .el-input {
   width: 25rem;
 }
@@ -69,8 +87,6 @@ export default {
   font-family: 微软雅黑;
   float: right;
 }
-
-
 
 
 </style>
