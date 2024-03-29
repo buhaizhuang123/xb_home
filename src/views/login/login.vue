@@ -13,7 +13,7 @@
           </el-form-item>
 
           <el-form-item label="密码:">
-            <el-input type="text" name="password" v-model="loginUser.password"></el-input>
+            <el-input type="password" name="password" v-model="loginUser.password"></el-input>
           </el-form-item>
 
           <el-form-item label="验证码:">
@@ -53,14 +53,16 @@ export default {
   },
   methods: {
     login(user) {
-      console.log(user)
       this.$axios.post('/doc/login?username=' + user.username + '&password=' + user.password, {
         params: user
       })
         .then(res => {
+          console.log('res.headers[\'authentication\']',res.headers['authentication'])
+          localStorage.clear();
+          localStorage.setItem('authentication', res.headers['authentication']);
           // 登录成功 跳转首页
           this.$router.push({
-            path:'/homePage'
+            path: '/default'
           })
         })
         .catch(err => {

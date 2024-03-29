@@ -12,14 +12,30 @@ Vue.use(ElementUI)
 // 配置调用
 Vue.prototype.$axios = axios
 
-
-axios.defaults.headers.post['Content-Type'] = 'text/plain'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers['Access-Control-Allow-Origin'] = "*"
 axios.defaults.withCredentials = true
+axios.defaults.headers['authentication'] = localStorage.getItem('authentication')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: {App},
   template: '<App/>'
+})
+
+
+axios.interceptors.response.use(res => {
+  return res;
+}, error => {
+  console.log('err', error)
+  if ((error.response.status === 401 || error.response.status === 403)) {
+    ElementUI.Message('用户登录失效、请重新登录!!!')
+    router.replace({
+      path: '/login',
+      query: {redirect: router.currentRoute.fullPath}
+    })
+    return Promise.reject(error)
+  }
+  return error.response;
 })

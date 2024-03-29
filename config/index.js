@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/doc': {
-        target: 'http://localhost:8888/', // 代理服务器
+        target: 'http://localhost:1010/', // 代理服务器
         changeOrigin: true,
         pathRewrite: {'^/doc': ''}
       }
