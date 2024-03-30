@@ -57,9 +57,8 @@ export default {
         params: user
       })
         .then(res => {
-          console.log('res.headers[\'authentication\']',res.headers['authentication'])
-          localStorage.clear();
-          localStorage.setItem('authentication', res.headers['authentication']);
+          console.log('res.headers[\'authentication\']', res.headers.authentication)
+          localStorage.setItem('authentication', res.headers.authentication);
           // 登录成功 跳转首页
           this.$router.push({
             path: '/default'

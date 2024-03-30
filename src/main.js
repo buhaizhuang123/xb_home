@@ -15,13 +15,24 @@ Vue.prototype.$axios = axios
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers['Access-Control-Allow-Origin'] = "*"
 axios.defaults.withCredentials = true
-axios.defaults.headers['authentication'] = localStorage.getItem('authentication')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: {App},
   template: '<App/>'
+})
+
+
+axios.interceptors.request.use(conf => {
+  if (conf.push === '/') {
+
+  } else {
+    if (localStorage.getItem('authentication')) {
+      conf.headers.authentication = localStorage.getItem('authentication')
+    }
+  }
+  return conf;
 })
 
 
